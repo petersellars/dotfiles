@@ -1,6 +1,6 @@
 .PHONY: all bin default
 
-all: bin dotfiles etc init
+all: bin dotfiles etc 
 
 default: install
 
@@ -14,6 +14,3 @@ dotfiles:
 	
 etc:
 
-init:
-	# install init scripts
-	# of course systemd hates aliases or some bullshit
