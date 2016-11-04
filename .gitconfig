@@ -1,19 +1,41 @@
-[user]
-	name = Pete Sellars
-	email = psellars@gmail.com
+[include]
+        path = ~/.gitconfig-user
+
+[color]
+        # Colour terminal command output when possible
+        ui = auto
+
 [rerere]
-	enabled = 1
-[push]
-	default = simple
+        # Store and re-use manual conflict resolution changes
+        enabled = 1
+
 [fetch]
-	prune = 1
+        # Always prune when fetching (and pulling)
+        prune = 1
+
 [core]
-	excludesfile = /home/psellars/.gitignore
-[web]
-	browser = google-chrome
+        # Exclude everything in this file. Used for general exclusions
+        # excludesfile = ~/.gitignore
+
 [help]
-	format = web
-	autocorrect = 10
+        # Autocorrect mistyped commands
+        autocorrect = 1
+
 [alias]
-	ultimate-log = log --graph --oneline --decorate
-	ul = !git ultimate-log
+        # Comman Commands
+
+        # Clone a repository including all submodules
+        c = clone --recursive
+
+        # View the current working tree status using the short format
+        s = status -s
+
+        # Logging Aliases
+
+        # View abbreviated SHA, description, and history graph of the latest 20 commits
+        l = log --pretty=oneline -n 20 --graph --abbrev-commit
+
+        # Ultimate log based on information in 'Git in Practice' book
+        # https://www.manning.com/books/git-in-practice
+        ultimate-log = log --graph --oneline --decorate
+        ul = !git ultimate-log
