@@ -1,6 +1,3 @@
-[include]
-        path = ~/.gitconfig-user
-
 [color]
         # Colour terminal command output when possible
         ui = auto
@@ -39,3 +36,12 @@
         # https://www.manning.com/books/git-in-practice
         ultimate-log = log --graph --oneline --decorate
         ul = !git ultimate-log
+[user]
+	name = Peter Sellars
+	email = psellars@gmail.com
+[shell]
+	username = psellars
+[github]
+	user = petersellars
+[gitlab]
+	user = psellars
