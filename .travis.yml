@@ -1,8 +1,10 @@
 ---
   sudo: required
-#  notifications:
-#    email: true
   services:
     - docker
   script:
     - make test
+  notifications:
+    slack:
+      rooms:
+        secure: Y3UCdHv0KG6EOoHpvuWnVI0uyY0pWIZ8+s7aOy4lGbmkPsSGyg+QpoLT+Q7aKFrDXFRQe65LDlhMhb1C4ouB8MnbRe60siHSVYiG/dzu+TfQkL+kDtQFe50QgXIb22xNSweAayQbqPEEjXIND68SNZBNyHaz7/6IKBLJb89FKS0=
