@@ -1,11 +1,8 @@
 ---
-  language: haskell
-  sudo: false
-  notifications:
-    email: true
-  ghc:
-    - 7.10
-  install:
-    - cabal install shellcheck
+  sudo: required
+#  notifications:
+#    email: true
+  services:
+    - docker
   script:
-    - ./test.sh
+    - make test

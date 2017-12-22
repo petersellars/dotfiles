@@ -1,10 +1,24 @@
 #!/bin/bash
-
 set -e
+set -o pipefail
 
-(
-# find all executables and run shellcheck
-for f in $(find . -type f -executable -not -path "./.git/*"); do
-	shellcheck "$f" && echo -e "--\nSuccessfully linted $f\n--"
+ERRORS=()
+
+# find all executables and run `shellcheck`
+for f in $(find . -type f -not -iwholename '*.git*' | sort -u); do
+	if file "$f" | grep --quiet shell; then
+		{
+			shellcheck "$f" && echo "[OK]: successfully linted $f"
+		} || {
+			# add to errors
+			ERRORS+=("$f")
+		}
+	fi
 done
-) || true
+
+if [ ${#ERRORS[@]} -eq 0 ]; then
+	echo "No errors, hooray"
+else
+	echo "These files failed shellcheck: ${ERRORS[*]}"
+	exit 1
+fi
