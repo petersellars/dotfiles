@@ -14,7 +14,8 @@ dotfiles:
 	for file in $(shell find $(CURDIR) -name ".*" -not -name ".gitignore" -not -name ".travis.yml" -not -name ".git" -not -name ".*.swp"); do \
 		f=$$(basename $$file); \
             	ln -sfn $$file $(HOME)/$$f; \
-        done;
+        done; \
+	git update-index --skip-worktree $(CURDIR)/.gitconfig
 
 test: shellcheck
 
