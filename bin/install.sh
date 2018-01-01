@@ -103,10 +103,50 @@ base_min() {
 
 	apt install -y \
 		adduser \
+		automake \
+		bash-completion \
+		bc \
+		bzip2 \
+		ca-certificates \
+		coreutils \
+		curl \
+		dnsutils \
+		file \
+		findutils \
+		gcc \
 		git \
-                make \
+		gnupg \
+		gnupg2 \
+		gnupg-agent \
+		grep \
+		gzip \
+		hostname \
+		indent \
+		iptables \
+		jq \
+		less \
+		libc6-dev \
+		locales \
+		lsof \
+		make \
+		mount \
+		net-tools \
 		neovim \
+		pinentry-curses \
+		rxvt-unicode-256color \
+		scdaemon \
+		silversearcher-ag \
+		ssh \
+		strace \
 		sudo \
+		tar \
+		tree \
+		tzdata \
+		unzip \
+		xclip \
+		xcompmgr \
+		xz-utils \
+		zip \
 		--no-install-recommends
 
 	apt autoremove
@@ -126,6 +166,12 @@ base() {
 
 	apt install -y \
 		apparmor \
+		bridge-utils \
+		cgroupfs-mount \
+		libapparmor-dev \
+		libltdl-dev \
+		libseccomp-dev \
+		network-manager \
 		--no-install-recommends
 
 	# Install tlp with recommends
