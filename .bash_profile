@@ -34,3 +34,9 @@ done
 	-W "$(grep "^Host" ~/.ssh/config | \
 	grep -v "[?*]" | cut -d " " -f2 | \
 	tr ' ' '\n')" scp sftp ssh
+
+# Print art when the terminal opens
+cat .art
+
+# Print a fortune when the terminal opens
+fortune -a -s | cowsay

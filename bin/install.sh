@@ -109,10 +109,14 @@ base_min() {
 		bzip2 \
 		ca-certificates \
 		coreutils \
+		cowsay \
 		curl \
 		dnsutils \
 		file \
 		findutils \
+		fortune \
+		fortunes-min \
+		fortunes-debian-hints \
 		gcc \
 		git \
 		gnupg \
@@ -153,7 +157,7 @@ base_min() {
 	apt autoclean
 	apt clean
 
-	#install_scripts
+	install_scripts
 }
 
 # Installs base packages
@@ -205,6 +209,21 @@ setup_sudo() {
 	{ \
 		echo -e "${TARGET_USER} ALL=(ALL) NOPASSWD:ALL"; \
 	} >> /etc/sudoers
+}
+
+# Install custom scripts/binaries
+install_scripts() {
+	# Install speedtest
+	curl -sSL https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py > /usr/local/bin/speedtest
+	chmod +x /usr/local/bin/speedtest
+
+	# Install icdiff
+	curl -sSL https://raw.githubusercontent.com/jeffkaufman/icdiff/master/icdiff > /usr/local/bin/icdiff
+	curl -sSL https://raw.githubusercontent.com/jeffkaufman/icdiff/master/git-icdiff > /usr/local/bin/git-icdiff
+	chmod +x /usr/local/bin/icdiff
+	chmod +x /usr/local/bin/git-icdiff
+
+
 }
 
 usage() {
