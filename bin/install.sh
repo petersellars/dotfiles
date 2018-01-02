@@ -10,8 +10,17 @@ export DEBIAN_FRONTEND=noninteractive
 # Choose a user account to use for this installation
 get_user() {
 	if [ -z "${TARGET_USER-}" ]; then
-		PS3='Which user account should be used? '
 		mapfile -t options < <(find /home/* -maxdepth 0 -printf "%f\\n" -type d)
+		# If there is only one option just use that user
+		if [ "${#options[@]}" -eq "1" ]; then
+			readonly TARGET_USER="${options[0]}"
+			echo "Using user account: ${TARGET_USER}"
+			return
+		fi
+
+		# Iterate through the user options and print them
+		PS3='Which user account should be used? '
+
 		select opt in "${options[@]}"; do
 			readonly TARGET_USER=$opt
 			break
@@ -187,7 +196,7 @@ base() {
 	apt autoclean
 	apt clean
 
-	#install_docker
+	install_docker
 }
 
 # Setup sudo for a user
@@ -209,6 +218,56 @@ setup_sudo() {
 	{ \
 		echo -e "${TARGET_USER} ALL=(ALL) NOPASSWD:ALL"; \
 	} >> /etc/sudoers
+
+	# Set up Downloads folder as tmpfs
+	# that way things are removed on reboot
+	# I like things clean but you may not want this
+	mkdir -p "/home/$TARGET_USER/Downloads"
+	echo -e "\\n# tmpfs for downloads\\ntmpfs\\t/home/${TARGET_USER}/Downloads\\ttmpfs\\tnodev,nosuid,size=2G\\t0\\t0" >> /etc/fstab
+
+}
+
+# Install Docker Master
+# And adds necessary items to boot params
+install_docker() {
+	# Create Docker group
+	sudo groupadd docker
+	sudo gpasswd -a "$TARGET_USER" docker
+
+	# Include contributed completions
+	mkdir -p /etc/bash_completion.d
+	curl -sSL -o /etc/bash_completion.d/docker https://raw.githubusercontent.com/docker/docker-ce/master/components/cli/contrib/completion/bash/docker
+
+	# Get the binary
+	local tmp_tar=/tmp/docker.tgz
+	local binary_uri="https://download.docker.com/linux/static/edge/x86_64"
+	local docker_version
+	docker_version=$(curl -sSL "https://api.github.com/repos/docker/docker-ce/releases/latest" | jq --raw-output .tag_name)
+	docker_version=${docker_version#v}
+	# local docker_sha256
+	# docker_sha256=$(curl -sSL "${binary_uri}/docker-${docker_version}.tgz.sha256" | awk '{print $1}')
+	(
+	set -x
+	curl -fSL "${binary_uri}/docker-${docker_version}.tgz" -o "${tmp_tar}"
+	# echo "${docker_sha256} ${tmp_tar}" | sha256sum -c -
+	tar -C /usr/local/bin --strip-components 1 -xzvf "${tmp_tar}"
+	rm "${tmp_tar}"
+	docker -v
+	)
+	chmod +x /usr/local/bin/docker*
+
+	curl -sSL https://raw.githubusercontent.com/petersellars/dotfiles/master/etc/systemd/system/docker.service > /etc/systemd/system/docker.service
+	curl -sSL https://raw.githubusercontent.com/petersellars/dotfiles/master/etc/systemd/system/docker.socket > /etc/systemd/system/docker.socket
+
+	systemctl daemon-reload
+	systemctl enable docker
+
+	# Update grub with docker configs and power-saving items
+	sed -i.bak 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1 pcie_aspm=force apparmor=1 security=apparmor"/g' /etc/default/grub
+	echo "Docker has been installed. If you want memory management & swap"
+	echo "run update-grub & reboot as root"
+	echo "e.g sudo update-grub/update-grub2 and sudo reboot"
+
 }
 
 # Install custom scripts/binaries
@@ -223,7 +282,14 @@ install_scripts() {
 	chmod +x /usr/local/bin/icdiff
 	chmod +x /usr/local/bin/git-icdiff
 
+	# Jess Frazelle's miscellaneous scripts
+	# NB. These are downloaded from Jess' miscellanesous binaries store
+	local scripts=( have light )
 
+	for script in "${scripts[@]}"; do
+		curl -sSL "https://misc.j3ss.co/binaries/$script" > "/usr/local/bin/${script}"
+		chmod +x "/usr/local/bin/${script}"
+	done
 }
 
 usage() {
@@ -231,6 +297,7 @@ usage() {
 	echo "Usage:"
 	echo "  base                           - setup sources & install base pkgs"
 	echo "  basemin                        - setup sources & install base min pkgs"
+	echo "  scripts                        - install scripts"
 }
 
 main() {
@@ -257,6 +324,8 @@ main() {
 		setup_sources_min
 
 		base_min
+	elif [[ $cmd == "scripts" ]]; then
+		install_scripts
 	else
 		usage
 	fi
