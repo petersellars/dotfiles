@@ -270,6 +270,31 @@ install_docker() {
 
 }
 
+# Instalql Flash
+install_flash() {
+        # Get the binary
+	local tmp_dir=/tmp/flash_player
+        local tmp_tar=/tmp/flash_player.tar.gz
+	local firefox_plugins_dir=/usr/lib/mozilla/plugins
+	local flashplayer_version=28.0.0.137
+        local binary_uri="https://fpdownload.adobe.com/get/flashplayer/pdc/${flashplayer_version}/"
+        (
+        set -x
+	mkdir -p ${tmp_dir}
+        curl -fSL "${binary_uri}/flash_player_npapi_linux.x86_64.tar.gz" -o "${tmp_tar}"
+        tar -C ${tmp_dir} -xzvf "${tmp_tar}"
+	
+	# Copy libflashplayer.so to the Firefox plugins directory
+	sudo cp ${tmp_dir}/libflashplayer.so ${firefox_plugins_dir}
+
+	# Copy the Flash Player Local Settings configurations files to the /usr directory
+	sudo cp -r ${tmp_dir}/usr/* /usr
+	
+	rm -Rf ${tmp_dir}
+        rm "${tmp_tar}"
+        )
+}
+
 # Install custom scripts/binaries
 install_scripts() {
 	# Install speedtest
@@ -297,6 +322,7 @@ usage() {
 	echo "Usage:"
 	echo "  base                           - setup sources & install base pkgs"
 	echo "  basemin                        - setup sources & install base min pkgs"
+	echo "  flash                          - install flash player"
 	echo "  scripts                        - install scripts"
 }
 
@@ -324,6 +350,8 @@ main() {
 		setup_sources_min
 
 		base_min
+        elif [[ $cmd == "flash"   ]]; then
+                install_flash
 	elif [[ $cmd == "scripts" ]]; then
 		install_scripts
 	else
