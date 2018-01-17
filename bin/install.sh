@@ -273,10 +273,10 @@ install_docker() {
 
 # Install Docker Compose as a container
 install_docker_compose() {
+        # TODO - Update this to use latest as per Docker install above
 	sudo curl -L --fail https://github.com/docker/compose/releases/download/1.18.0/run.sh -o /usr/local/bin/docker-compose
 	sudo chmod +x /usr/local/bin/docker-compose
 }
-
 
 # Install Flash
 install_flash() {
@@ -301,6 +301,36 @@ install_flash() {
 	rm -Rf ${tmp_dir}
         rm "${tmp_tar}"
         )
+}
+
+# install graphics drivers
+install_graphics() {
+	local system=$1
+
+	if [[ -z "$system" ]]; then
+		echo "You need to specify whether it's intel, geforce or optimus"
+		exit 1
+	fi
+
+	local pkgs=( xorg xserver-xorg )
+
+	case $system in
+		"intel")
+			pkgs+=( xserver-xorg-video-intel )
+			;;
+		"geforce")
+			pkgs+=( nvidia-driver )
+			;;
+		"optimus")
+			pkgs+=( nvidia-kernel-dkms bumblebee-nvidia primus )
+			;;
+		*)
+			echo "You need to specify whether it's intel, geforce or optimus"
+			exit 1
+			;;
+	esac
+
+	apt install -y "${pkgs[@]}" --no-install-recommends
 }
 
 # Install custom scripts/binaries
@@ -328,10 +358,11 @@ install_scripts() {
 usage() {
 	echo -e "install.sh\\n\\tThis script installs my basic setup for a debian laptop or vm\\n"
 	echo "Usage:"
-	echo "  base                           - setup sources & install base pkgs"
-	echo "  basemin                        - setup sources & install base min pkgs"
-	echo "  flash                          - install flash player"
-	echo "  scripts                        - install scripts"
+	echo "  base                               - setup sources & install base pkgs"
+	echo "  basemin                            - setup sources & install base min pkgs"
+	echo "  flash                              - install flash player"
+        echo "  graphics {intel, geforce, optimus} - install graphics drivers"
+	echo "  scripts                            - install scripts"
 }
 
 main() {
@@ -358,6 +389,10 @@ main() {
 		setup_sources_min
 
 		base_min
+	elif [[ $cmd == "graphics" ]]; then
+		check_is_sudo
+
+		install_graphics "$2"
         elif [[ $cmd == "flash"   ]]; then
                 install_flash
 	elif [[ $cmd == "scripts" ]]; then
