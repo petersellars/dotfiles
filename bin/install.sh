@@ -197,6 +197,7 @@ base() {
 	apt clean
 
 	install_docker
+        install_docker_compose
 }
 
 # Setup sudo for a user
@@ -231,7 +232,7 @@ setup_sudo() {
 # And adds necessary items to boot params
 install_docker() {
 	# Create Docker group
-	sudo groupadd docker
+	sudo groupadd -f docker
 	sudo gpasswd -a "$TARGET_USER" docker
 
 	# Include contributed completions
@@ -263,14 +264,21 @@ install_docker() {
 	systemctl enable docker
 
 	# Update grub with docker configs and power-saving items
-	sed -i.bak 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1 pcie_aspm=force apparmor=1 security=apparmor"/g' /etc/default/grub
+	sed -i.bak 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1 apparmor=1 security=apparmor page_posion=1 slab_nomerge vsyscall=none"/g' /etc/default/grub
 	echo "Docker has been installed. If you want memory management & swap"
 	echo "run update-grub & reboot as root"
 	echo "e.g sudo update-grub/update-grub2 and sudo reboot"
 
 }
 
-# Instalql Flash
+# Install Docker Compose as a container
+install_docker_compose() {
+	sudo curl -L --fail https://github.com/docker/compose/releases/download/1.18.0/run.sh -o /usr/local/bin/docker-compose
+	sudo chmod +x /usr/local/bin/docker-compose
+}
+
+
+# Install Flash
 install_flash() {
         # Get the binary
 	local tmp_dir=/tmp/flash_player
