@@ -362,6 +362,25 @@ install_wmapps() {
 
 	apt install -y "${pkgs[@]}" --no-install-recommends
 
+	# Update clickpad settings
+	mkdir -p /etc/X11/xorg.conf.d
+	curl -sSL https://raw.githubusercontent.com/petersellars/dotfiles/master/etc/X11/xorg.conf.d/50-synaptics-clickpad.conf > /etc/X11/xorg.conf.d/50-synaptics-clickpad.conf
+
+	# Add xorg configuration
+	curl -sSL https://raw.githubusercontent.com/petersellars/dotfiles/master/etc/X11/xorg.conf > /etc/X11/xorg.conf
+
+	# Get the correct sound cards on boot
+	curl -sSL https://raw.githubusercontent.com/petersellars/dotfiles/master/etc/modprobe.d/intel.conf > /etc/modprobe.d/intel.conf
+
+	# Pretty fonts
+	curl -sSL https://raw.githubusercontent.com/petersellars/dotfiles/master/etc/fonts/local.conf > /etc/fonts/local.conf
+
+	echo "Fonts file setup successfully now run:"
+	echo "  dpkg-reconfigure fontconfig-config"
+	echo "with settings: "
+	echo "  Autohinter, Automatic, No."
+	echo "Run: "
+	echo "  dpkg-reconfigure fontconfig"
 }
 
 usage() {
