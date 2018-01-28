@@ -1,2 +1,49 @@
 #!/bin/bash
 # Bash wrappers for docker run commands
+
+export DOCKER_REPO_PREFIX=jess
+
+#
+# Helper functions
+#
+del_stopped() {
+	local name=$1
+	local state
+	state=$(docker inspect --format "{{.State.Running}}" "$name" 2>/dev/null)
+
+	if [[ "$state" == "false" ]]; then
+		docker rm "$name"
+	fi
+}
+
+firefox() {
+	del_stopped firefox
+
+	docker run -d \
+		--memory 2gb \
+		--net host \
+		--cpuset-cpus 0 \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-v "${HOME}/.firefox/cache:/root/.cache/mozilla" \
+		-v "${HOME}/.firefox/mozilla:/root/.mozilla" \
+		-v "${HOME}/.Downloads:/root/Downloads" \
+		-e "DISPLAY=unix${DISPLAY}" \
+		-e GDK_SCALE \
+		-e GDK_DPI_SCALE \
+		--device /dev/snd \
+		--device /dev/dri \
+		--name firefox \
+		${DOCKER_REPO_PREFIX}/firefox "$@"
+
+	# exit current shell
+	exit 0
+}
+
+htop() {
+	docker run --rm -it \
+		--pid host \
+		--net none \
+		--name htop \
+		${DOCKER_REPO_PREFIX}/htop
+}

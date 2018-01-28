@@ -181,6 +181,7 @@ base() {
 		apparmor \
 		bridge-utils \
 		cgroupfs-mount \
+		firmware-linux-nonfree \
 		libapparmor-dev \
 		libltdl-dev \
 		libseccomp-dev \
@@ -355,6 +356,14 @@ install_scripts() {
 	done
 }
 
+# install stuff for i3 window manager
+install_wmapps() {
+	local pkgs=( feh i3 i3lock i3status scrot slim suckless-tools )
+
+	apt install -y "${pkgs[@]}" --no-install-recommends
+
+}
+
 usage() {
 	echo -e "install.sh\\n\\tThis script installs my basic setup for a debian laptop or vm\\n"
 	echo "Usage:"
@@ -363,6 +372,7 @@ usage() {
 	echo "  flash                              - install flash player"
         echo "  graphics {intel, geforce, optimus} - install graphics drivers"
 	echo "  scripts                            - install scripts"
+	echo "  wm                                 - install window manager/desktop pkgs"
 }
 
 main() {
@@ -393,6 +403,10 @@ main() {
 		check_is_sudo
 
 		install_graphics "$2"
+	elif [[ $cmd == "wm" ]]; then
+		check_is_sudo
+
+		install_wmapps
         elif [[ $cmd == "flash"   ]]; then
                 install_flash
 	elif [[ $cmd == "scripts" ]]; then
