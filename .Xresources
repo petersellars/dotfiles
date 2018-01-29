@@ -83,7 +83,7 @@ URxvt*background:       [90]S_base04
 *saveLines:             999999
 
 !-- Xft settings -- !
-Xft.dpi:        220 
+Xft.dpi:        192 
 Xft.rgba:       rgb
 Xft.autohint:   0
 Xft.lcdfilter:  lcddefault
@@ -91,11 +91,14 @@ Xft.hintstyle:  hintfull
 Xft.hinting:    1
 Xft.antialias:  1
 
-! -- Fonts -- !
-URxvt.font:xft:Inconsolata:pixelsize=27,style=Medium, xft:Symbola:pixelsize=19,style=Regular
-URxvt.boldFont:xft:Inconsolata:style=Bold,pixelsize=27, xft:Symbola:pixelsize=19,style=Regular
+! -- Cursor -- !
+Xcursor.size: 12
 
-*faceSize:              10
+! -- Fonts -- !
+URxvt.font:xft:Inconsolata:pixelsize=12,style=Medium, xft:Symbola:pixelsize=12,style=Regular
+URxvt.boldFont:xft:Inconsolata:style=Bold,pixelsize=12, xft:Symbola:pixelsize=12,style=Regular
+
+*faceSize:              12
 *bellIsUrgent:          true
 
 !! scroll
