@@ -16,8 +16,27 @@ del_stopped() {
 	fi
 }
 
+relies_on() {
+	for container in "$@"; do
+		local state
+		state=$(docker inspect --format "{{.State.running}}" "$container" 2>/dev/null)
+
+		if [[ "$state" == "false" ]] || [[ "$state" == "" ]]; then
+			echo "$container is not running, starting it for you."
+			$container
+		fi
+	done
+}
+
+adr() {
+	docker run --rm -it \
+		-v ${PWD}/doc/adr:/project/doc/adr \
+		psellars/adr-tools "$@"
+}
+
 firefox() {
 	del_stopped firefox
+	#relies_on pulseaudio
 
 	docker run -d \
 		--memory 2gb \

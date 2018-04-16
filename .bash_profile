@@ -36,7 +36,7 @@ done
 	tr ' ' '\n')" scp sftp ssh
 
 # Print art when the terminal opens
-cat .art
+cat $HOME/.art
 
 # Print a fortune when the terminal opens
 fortune -a -s | cowsay
