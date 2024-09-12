@@ -1,3 +1,13 @@
 {
-    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04"
+    "name" : "Dotfiles Dev Container",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash"
+            }
+        }
+    }
 }
