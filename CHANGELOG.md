@@ -9,14 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- This CHANGELOG file to curate an ordered list of notable changes
+- A [DevContainer](https://containers.dev/) has been provided to ensure a consistent development experience.
+- This `CHANGELOG` file that follows [keep a changelog](https://keepachangelog.com/) guidelines to list notable changes.
+- A `.gitattributes` file to ensure consistent line endings.
+- Added support for writing and managing [ADRs](https://adr.github.io/) using [adr-tools](https://github.com/npryce/adr-tools) within the DevContainer.
+- Initialised [ADR](doc/architecture/decisions/0001-record-architecture-decisions.md) documentation
+- Added an [ADR](doc/architecture/decisions/0002-enforcing-consistent-line-endings-using-gitattributes-in-a-devcontainer.md) detailing the decision regarding the `.gitarributes`.
 
 ### Changed
 
-- The LICENSE copyright date to 2024
+- Updated the LICENSE copyright date to 2024.
 
 ### Removed
 
-- All old dotfiles and tools
+- All old dotfiles and tools.
 
 [unreleased]: https://github.com/petersellars/dotfiles/compare/master
