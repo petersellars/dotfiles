@@ -13,8 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - This `CHANGELOG` file that follows [keep a changelog](https://keepachangelog.com/) guidelines to list notable changes.
 - A `.gitattributes` file to ensure consistent line endings.
 - Added support for writing and managing [ADRs](https://adr.github.io/) using [adr-tools](https://github.com/npryce/adr-tools) within the DevContainer.
-- Initialised ADR documentation
-- Added an ADR detailing the decision regarding the `.gitarributes`.
+- Initialised [ADR](doc/architecture/decisions/0001-record-architecture-decisions.md) documentation
+- Added an [ADR](doc/architecture/decisions/0002-enforcing-consistent-line-endings-using-gitattributes-in-a-devcontainer.md) detailing the decision regarding the `.gitarributes`.
 
 ### Changed
 
