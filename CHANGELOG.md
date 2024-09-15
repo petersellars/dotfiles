@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for writing and managing [ADRs](https://adr.github.io/) using [adr-tools](https://github.com/npryce/adr-tools) within the DevContainer.
 - Initialised [ADR](doc/architecture/decisions/0001-record-architecture-decisions.md) documentation
 - Added an [ADR](doc/architecture/decisions/0002-enforcing-consistent-line-endings-using-gitattributes-in-a-devcontainer.md) detailing the decision regarding the `.gitarributes`.
+- Added [ADR](doc/architecture/decisions/0003-use-of-devcontainers.md) documenting the decision to use DevContainers for consistent and reproducible development environments.
 
 ### Changed
 
