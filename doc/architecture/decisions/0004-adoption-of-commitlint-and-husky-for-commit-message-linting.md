@@ -36,7 +36,46 @@ Additionally, this ADR covers the necessary changes to our DevContainer configur
 
 ## Changes Required
 
-### 1. Add Commitlint and Husky to the Repository
+### 1. Configure DevContainer to Support Commitlint
+To ensure that developers using the **DevContainer** have access to Commitlint and Husky, the following steps should be taken to configure the DevContainer with **nvm** and Node.js.
+
+#### Steps:
+
+1. Modify the `.devcontainer/devcontainer.json` to include the nvm feature for managing Node.js versions:
+
+    ```json
+    {
+      "name": "My DevContainer",
+      "features": {
+        "ghcr.io/devcontainers/features/node:1": {
+          "version": "lts"
+        }
+      },
+      "customizations": {
+        "vscode": {
+          "extensions": [
+            "dbaeumer.vscode-eslint",
+            "esbenp.prettier-vscode"
+          ]
+        }
+      }
+    }
+    ```
+1. Add a `postCreateCommand` to the DevContainer configuration to install dependencies (including Commitlint and Husky) when the container is built:
+
+    ```json
+    {
+      "postCreateCommand":
+        ". ${NVM_DIR}/nvm.sh && nvm install"
+    }
+    ```
+1. Ensure the correct Node.js version is used in the DevContainer by adding an `.nvmrc` file in the repository root:
+
+    ```bash
+    lts/*
+    ```
+
+### 2. Add Commitlint and Husky to the Repository
 
 Steps:
 
@@ -64,43 +103,6 @@ Steps:
         "prepare": "husky install"
       }
     }
-    ```
-### 2. Configure DevContainer to Support Commitlint
-To ensure that developers using the **DevContainer** have access to Commitlint and Husky, the following steps should be taken to configure the DevContainer with **nvm** and Node.js.
-
-#### Steps:
-
-1. Modify the `.devcontainer/devcontainer.json` to include the nvm feature for managing Node.js versions:
-
-    ```json
-    {
-      "name": "My DevContainer",
-      "features": {
-        "ghcr.io/devcontainers/features/nvm:1": {
-          "version": "lts"
-        }
-      },
-      "customizations": {
-        "vscode": {
-          "extensions": [
-            "dbaeumer.vscode-eslint",
-            "esbenp.prettier-vscode"
-          ]
-        }
-      }
-    }
-    ```
-1. Add a `postCreateCommand` to the DevContainer configuration to install dependencies (including Commitlint and Husky) when the container is built:
-
-    ```json
-    {
-      "postCreateCommand": "npm install"
-    }
-    ```
-1. Ensure the correct Node.js version is used in the DevContainer by adding an `.nvmrc` file in the repository root:
-
-    ```bash
-    lts/*
     ```
 
 This will ensure that the DevContainer uses the latest LTS version of Node.js, and developers using the DevContainer will have the correct environment to run Commitlint and Husky without needing to configure their local machines.
