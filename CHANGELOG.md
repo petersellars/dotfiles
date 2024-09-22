@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added an [ADR](doc/architecture/decisions/0002-enforcing-consistent-line-endings-using-gitattributes-in-a-devcontainer.md) detailing the decision regarding the `.gitarributes`.
 - Added [ADR](doc/architecture/decisions/0003-use-of-devcontainers.md) documenting the decision to use DevContainers for consistent and reproducible development environments.
 - Added [ADR](doc/architecture/decisions/0004-adoption-of-commitlint-and-husky-for-commit-message-linting.md) detailing the decision to adopt [commitlint](https://commitlint.js.org/) and [husky](https://typicode.github.io/husky/) for commit message linting
+- Added commit linting capabilities using the `husky` and `commitlint` npm packages
 
 ### Changed
 
