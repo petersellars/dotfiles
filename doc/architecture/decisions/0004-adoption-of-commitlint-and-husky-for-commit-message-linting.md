@@ -92,8 +92,8 @@ Steps:
 1. Initialize Husky and add a `commit-msg` hook to run Commitlint:
 
     ```bash
-    npx husky install
-    npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
+    npx husky init
+    echo "npx --no -- commitlint --edit \$1" > .husky/commit-msg
     ```
 1. Ensure that Husky is automatically set up on new installs by adding the following script to `package.json`:
 
