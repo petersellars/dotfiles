@@ -5,6 +5,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu-24.04
 RUN apt-get update && apt-get install -y \
     git \
     curl \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone the adr-tools repository

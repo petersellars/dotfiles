@@ -63,9 +63,9 @@ Create an install.conf.yaml file in the root of your dotfiles directory:
 ```yaml
 - clean: true
 
-- link:
-    ~/.bashrc: bashrc
-    ~/.gitconfig: gitconfig
+# - link:
+#     ~/.bashrc: bashrc
+#     ~/.gitconfig: gitconfig
 
 - shell:
     - echo "Dotfiles installation complete!"
@@ -74,13 +74,13 @@ Create an install.conf.yaml file in the root of your dotfiles directory:
 This configuration will:
 
 1. Clean up any broken symlinks.
-2. Symlink `bashrc` and `gitconfig` from the dotfiles directory to the user's home directory.
+2. Disabled symlink `bashrc` and `gitconfig` from the dotfiles directory to the user's home directory.
 3. Run a simple shell command to indicate successful setup.
 
 ### Step 3: Install Dotfiles
-Run DotBot from your dotfiles directory:
+Run DotBot using the `install` command:
 ```bash
-./dotbot/bin/dotbot -c install.conf.yaml
+./install
 ```
 This command will create the necessary symlinks and ensure your dotfiles are correctly installed.
 
