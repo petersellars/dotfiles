@@ -61,7 +61,7 @@ The decision is to use DotBot due to its simplicity, cross-platform capabilities
 ### Step 2: Create a Basic Configuration File
 Create an install.conf.yaml file in the root of your dotfiles directory:
 ```yaml
-- clean: true
+- clean: ['~']
 
 # - link:
 #     ~/.bashrc: bashrc
