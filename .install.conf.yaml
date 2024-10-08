@@ -1,9 +1,17 @@
+- defaults:
+    link:
+        create: true
+        link: true
+
 - clean: ['~']
 
-- link: {}
-#     ~/.bashrc: bashrc
-#     ~/.gitconfig: gitconfig
+- link: 
+    ~/.bash:
+    ~/.new-bashrc: bashrc
+    ~/.bash_profile:
+    ~/.shell:
 
 - shell:
     - [git submodule sync --recursive, 'Synching submodules']
+    - [git submodule update --init --recursive, 'Updating submodules']
     - echo "Dotfiles installation complete!"
