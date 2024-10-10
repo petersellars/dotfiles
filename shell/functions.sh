@@ -1,9 +1,27 @@
 # These shell functions aim to improve productivity and make the shell more
 # user-friendly.
 
+# Remove a specific directory from the PATH
+path_remove() {
+    PATH=$(echo -n "$PATH" | awk -v RS=: -v ORS=: "\$0 != \"$1\"" | sed 's/:$//')
+}
+
+# Prepend a directory to the PATH if it exists
+path_prepend() {
+    path_remove "$1"
+    PATH="$1${PATH:+":$PATH"}"
+}
+
 # Searches through your command history for a given keyword
+# will ignore itself and the histgrep command
 histgrep() {
-    history | grep "$1"
+    history | grep "$1" | grep -v "histgrep"
+}
+
+# Clear history and remove it from disk
+histclear() {
+    history -c
+    history -w
 }
 
 # Creates or updates a symbolic link to the current directory
