@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added [Dotbot](https://github.com/anishathalye/dotbot) capabilities for dotfile installation.
 - Updated the DevContainer to install `python3-pip` required to run [Dotbot](https://github.com/anishathalye/dotbot).
 - Added additional badges to the README file.
+- Added intial bash dotfiles configurations.
 
 ### Changed
 
