@@ -4,8 +4,9 @@
         "dockerfile": "Dockerfile"
     },
     "features": {
-        "ghcr.io/devcontainers/features/node:1": {
-            "version": "lts"
+        "ghcr.io/devcontainers/features/node:1.6.1": {
+            "version": "22.11.0",
+            "nvmVersion": "0.40.1"
         }
     },
     "customizations": {
@@ -19,6 +20,5 @@
             ]
         }
     },
-    "postCreateCommand":
-        ". ${NVM_DIR}/nvm.sh && nvm install"
+    "runArgs": ["--name", "dotfiles-devcontainer"]
 }
