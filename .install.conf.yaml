@@ -9,10 +9,11 @@
     ~/.bash:
     ~/.bashrc:
         force: true
-    ~/.bash_profile:
     ~/.shell:
 
 - shell:
+    - command: echo "source ./bash_profile" >> ~/.bash_profile
+      stdin: false
     - [git submodule sync --recursive, 'Synching submodules']
     - [git submodule update --init --recursive, 'Updating submodules']
     - echo "Dotfiles installation complete!"
