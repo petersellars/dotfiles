@@ -5,7 +5,7 @@
     },
     "features": {
         "ghcr.io/devcontainers/features/node:1.6.1": {
-            "version": "22.11.0",
+            "version": "22.13.0",
             "nvmVersion": "0.40.1"
         }
     },
