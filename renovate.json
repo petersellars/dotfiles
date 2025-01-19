@@ -6,5 +6,26 @@
     "helpers:pinGitHubActionDigests",
     ":pinDevDependencies"
   ],
-  "baseBranches": ["main"]
+  "baseBranches": ["main"],
+  "regexManagers": [
+    {
+      "fileMatch": ["devcontainer.json"],
+      "matchStrings": [
+        "\"version\": \"(?<currentValue>[\\d\\.]+)\""
+      ],
+      "depNameTemplate": "Node.js version",
+      "datasourceTemplate": "node",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["devcontainer.json"],
+      "matchStrings": [
+        "\"nvmVersion\": \"(?<currentValue>[\\d\\.]+)\""
+      ],
+      "depNameTemplate": "NVM",
+      "datasourceTemplate": "github-releases",
+      "lookupNameTemplate": "nvm-sh/nvm",
+      "versioningTemplate": "semver"
+    }
+  ]
 }
