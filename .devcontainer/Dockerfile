@@ -1,5 +1,5 @@
 # Use the official Microsoft Ubuntu 24.04 image as a base
-FROM mcr.microsoft.com/vscode/devcontainers/base:1.2.4-ubuntu-24.04
+FROM mcr.microsoft.com/vscode/devcontainers/base:1.2.5-ubuntu-24.04
 
 # Install Python 3 Pip
 RUN apt-get update && apt-get install -y \
