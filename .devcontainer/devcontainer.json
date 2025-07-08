@@ -20,5 +20,8 @@
             ]
         }
     },
+    "mounts": [
+        "type=bind,source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,readonly"
+    ],
     "runArgs": ["--name", "dotfiles-devcontainer"]
 }
