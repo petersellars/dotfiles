@@ -7,7 +7,7 @@ on:
 
 jobs:
   dotfiles-tests:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     # act does not support ubuntu-24.04 yet so use this when running locally
     # runs-on: ubuntu-latest
 
