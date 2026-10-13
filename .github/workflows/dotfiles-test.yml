@@ -23,8 +23,41 @@ jobs:
           ./install
 
       # Run Dotfiles Tests
-      - name: Run Dotfiles Tests
+      - name: Test histclear
+        shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
         run: |
-          source ~/.bashrc
+          set -o history
+
+          export HISTFILE="$(mktemp)"
+          trap 'rm -f "$HISTFILE"' EXIT
+
+          source ~/.shell/functions.sh
+
+          # Arrange
+          history -s "test-command-1"
+          history -s "test-command-2"
+          history -w
+
+          # Sanity check the fixture.
+          grep -qx 'test-command-1' "$HISTFILE"
+          grep -qx 'test-command-2' "$HISTFILE"
+
+          # Act
           histclear
-          
+
+          # Assert: history file should have been cleared by history -w.
+          if [[ -s "$HISTFILE" ]]; then
+              echo "FAIL: history file was not cleared"
+              cat "$HISTFILE"
+              exit 1
+          fi
+
+          # Assert: the previous in-memory history entries should be gone.
+          if history | grep -qE 'test-command-[12]'; then
+              echo "FAIL: previous in-memory history was not cleared"
+              history
+              exit 1
+          fi
+
+          echo "PASS: histclear cleared memory and disk history"
+              

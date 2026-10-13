@@ -10,7 +10,13 @@ if [ -f ~/.shell_local_before ]; then
     source ~/.shell_local_before
 fi
 
-# Allow local customizations in the ~/.bashrc_local_before file
+# Stop here when running in a non-interactive shell.
+#
+# This prevents terminal-specific configuration such as prompts, aliases,
+# colours, tput, and shell history settings from running in CI.
+[[ $- == *i* ]] || return
+
+# Allow local Bash customizations in the ~/.bashrc_local_before file
 if [ -f ~/.bashrc_local_before ]; then
     source ~/.bashrc_local_before
 fi
